@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Run Playwright Tests
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -26,6 +27,14 @@ jobs:
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
+      - name: Debug Environment Variables
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_URL: ${{ secrets.API_URL }}
+        run: |
+          echo "BASE_URL=$BASE_URL"
+          echo "API_URL=$API_URL"
 
       - name: Run Playwright Tests
         env:
