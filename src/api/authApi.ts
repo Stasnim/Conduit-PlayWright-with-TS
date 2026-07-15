@@ -19,8 +19,9 @@ export async function getToken(): Promise<string> {
     },
   });
 
-   console.log('Actual URL:', response.url());
-  console.log('Status:', response.status());
+   console.log('API_URL:', process.env.API_URL);
+console.log('Actual URL:', response.url());
+console.log('Status:', response.status());
 
   const text = await response.text();
   console.log(text);
