@@ -15,17 +15,17 @@ test.describe('User Settings', () => {
 
     await settingsPage.open();
 
-    await settingsPage.updateProfile(
-      user.bio,
-      user.image
-    );
+   await settingsPage.updateProfile(
+  user.bio,
+  user.image
+);
 
-    // Verify the update persisted
-    await settingsPage.open();
+// Verify the update persisted
+await settingsPage.open();
 
-    await expect(settingsPage.bioInput).toHaveValue(user.bio);
+await expect(settingsPage.bioInput).toHaveValue(user.bio);
 
-    await expect(settingsPage.imageUrlInput).toHaveValue(user.image);
+await expect(settingsPage.imageUrlInput).toHaveValue(user.image);
 
   });
 

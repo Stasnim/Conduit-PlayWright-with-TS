@@ -48,22 +48,30 @@ export class SettingsPage {
   }
 
   async updateProfile(
-    bio: string,
-    imageUrl?: string,
-    password?: string
-  ) {
-    await this.bioInput.fill(bio);
+  bio: string,
+  imageUrl?: string,
+  password?: string
+) {
+  await this.bioInput.fill(bio);
 
-    if (imageUrl) {
-      await this.imageUrlInput.fill(imageUrl);
-    }
-
-    if (password) {
-      await this.passwordInput.fill(password);
-    }
-
-    await this.updateSettingsButton.click();
+  if (imageUrl) {
+    await this.imageUrlInput.fill(imageUrl);
   }
+
+  if (password) {
+    await this.passwordInput.fill(password);
+  }
+
+  await Promise.all([
+    this.page.waitForResponse(
+      response =>
+        response.url().includes('/api/user') &&
+        response.request().method() === 'PUT' &&
+        response.ok()
+    ),
+    this.updateSettingsButton.click(),
+  ]);
+}
 
   async verifyBioUpdated(bio: string) {
     await this.settingsLink.click();
