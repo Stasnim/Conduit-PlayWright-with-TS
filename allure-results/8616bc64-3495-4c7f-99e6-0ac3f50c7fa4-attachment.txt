@@ -1,0 +1,4 @@
+API_URL: https://conduit-api.bondaracademy.com/api/
+Actual URL: https://conduit-api.bondaracademy.com/api/users/login
+Status: 200
+{"user":{"email":"RohnDoe1@gmail.com","username":"RohnDoe1@gmail.com","bio":"creator, artist, engineer 🥗","image":"https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/72.jpg","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1ODY3Nn0sImlhdCI6MTc4NDEwNDYyMiwiZXhwIjoxNzg5Mjg4NjIyfQ.LsDbwsf8qnmMdSnRoKWSdZLVtKiUCW7RgWszU-C6jtI"}}

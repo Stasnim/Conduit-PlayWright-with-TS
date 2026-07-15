@@ -1,0 +1,14 @@
+API_URL: https://conduit-api.bondaracademy.com/api
+Actual URL: https://conduit-api.bondaracademy.com/users/login
+Status: 404
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /users/login</pre>
+</body>
+</html>
+

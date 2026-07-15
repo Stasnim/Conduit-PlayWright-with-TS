@@ -1,0 +1,4 @@
+API_URL: https://conduit-api.bondaracademy.com/api/
+Actual URL: https://conduit-api.bondaracademy.com/api/users/login
+Status: 200
+{"user":{"email":"RohnDoe1@gmail.com","username":"RohnDoe1@gmail.com","bio":"outlaw lover, leader","image":"https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/18.jpg","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1ODY3Nn0sImlhdCI6MTc4NDEwNTIyNiwiZXhwIjoxNzg5Mjg5MjI2fQ.G5h-O_iFl2jcd8h5L-soYjGKJhvh0W_qyQdkVI9-2KI"}}

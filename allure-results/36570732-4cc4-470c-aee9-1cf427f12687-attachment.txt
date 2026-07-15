@@ -1,0 +1,2 @@
+API_URL: https://conduit-api.bondaracademy.com/api
+EMAIL: RohnDoe1@gmail.com

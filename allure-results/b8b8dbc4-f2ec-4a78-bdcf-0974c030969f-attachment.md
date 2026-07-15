@@ -1,0 +1,347 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: articles\tagFilter.spec.ts >> Filter Articles by Tag >> should filter articles by tag
+- Location: tests\articles\tagFilter.spec.ts:30:7
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('.tag-list').getByText('Test', { exact: true })
+Expected: visible
+Error: strict mode violation: locator('.tag-list').getByText('Test', { exact: true }) resolved to 2 elements:
+    1) <li class="tag-default tag-pill tag-outline"> Test </li> aka getByRole('link', { name: 'varius absque vivo Vorago' })
+    2) <li class="tag-default tag-pill tag-outline"> Test </li> aka getByRole('link', { name: 'curriculum auditor condico' })
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for locator('.tag-list').getByText('Test', { exact: true })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e4]:
+    - generic:
+      - link "conduit" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Home" [ref=e8] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e9]:
+          - link " New Article" [ref=e10] [cursor=pointer]:
+            - /url: /editor
+            - generic [ref=e11]: 
+            - text: New Article
+        - listitem [ref=e12]:
+          - link " Settings" [ref=e13] [cursor=pointer]:
+            - /url: /settings
+            - generic [ref=e14]: 
+            - text: Settings
+        - listitem [ref=e15]:
+          - link "RohnDoe1@gmail.com" [ref=e16] [cursor=pointer]:
+            - /url: /profile/RohnDoe1@gmail.com
+            - img [ref=e17]
+            - text: RohnDoe1@gmail.com
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - list [ref=e24]:
+        - listitem [ref=e25]:
+          - generic [ref=e26] [cursor=pointer]: Your Feed
+        - listitem [ref=e27]:
+          - generic [ref=e28]: Global Feed
+        - text: 
+      - generic [ref=e29]:
+        - generic [ref=e31]:
+          - generic [ref=e33]:
+            - link [ref=e34] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e35]
+            - generic [ref=e36]:
+              - link "RohnDoe1@gmail.com" [ref=e37] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e38]: July 15, 2026
+            - button " 0" [ref=e40] [cursor=pointer]:
+              - generic [ref=e41]: 
+              - text: "0"
+          - link "admoneo damno debeo Utroque bellicus subiungo tabula astrum aegre degenero. Read more... bidet loyalty" [ref=e42] [cursor=pointer]:
+            - /url: /article/admoneo-damno-debeo-58676
+            - heading "admoneo damno debeo" [level=1] [ref=e43]
+            - paragraph [ref=e44]: Utroque bellicus subiungo tabula astrum aegre degenero.
+            - text: Read more...
+            - list [ref=e45]:
+              - listitem [ref=e46]: bidet
+              - listitem [ref=e47]: loyalty
+        - generic [ref=e49]:
+          - generic [ref=e51]:
+            - link [ref=e52] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e53]
+            - generic [ref=e54]:
+              - link "RohnDoe1@gmail.com" [ref=e55] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e56]: July 15, 2026
+            - button " 0" [ref=e58] [cursor=pointer]:
+              - generic [ref=e59]: 
+              - text: "0"
+          - link "varius absque vivo Vorago tego thermae adipiscor carcer titulus eius virga tempore mollitia. Read more... Test" [ref=e60] [cursor=pointer]:
+            - /url: /article/varius-absque-vivo-58676
+            - heading "varius absque vivo" [level=1] [ref=e61]
+            - paragraph [ref=e62]: Vorago tego thermae adipiscor carcer titulus eius virga tempore mollitia.
+            - text: Read more...
+            - list [ref=e63]:
+              - listitem [ref=e64]: Test
+        - generic [ref=e66]:
+          - generic [ref=e68]:
+            - link [ref=e69] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e70]
+            - generic [ref=e71]:
+              - link "RohnDoe1@gmail.com" [ref=e72] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e73]: July 15, 2026
+            - button " 0" [ref=e75] [cursor=pointer]:
+              - generic [ref=e76]: 
+              - text: "0"
+          - link "animadverto audeo voluptatibus Tibi vestigium esse cernuus damno thermae. Read more... legging cork" [ref=e77] [cursor=pointer]:
+            - /url: /article/animadverto-audeo-voluptatibus-58676
+            - heading "animadverto audeo voluptatibus" [level=1] [ref=e78]
+            - paragraph [ref=e79]: Tibi vestigium esse cernuus damno thermae.
+            - text: Read more...
+            - list [ref=e80]:
+              - listitem [ref=e81]: legging
+              - listitem [ref=e82]: cork
+        - generic [ref=e84]:
+          - generic [ref=e86]:
+            - link [ref=e87] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e88]
+            - generic [ref=e89]:
+              - link "RohnDoe1@gmail.com" [ref=e90] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e91]: July 15, 2026
+            - button " 0" [ref=e93] [cursor=pointer]:
+              - generic [ref=e94]: 
+              - text: "0"
+          - link "termes pauper sortitus Cibo talis vitiosus vinitor sollicito thermae capitulus pecto agnosco nemo. Read more... disadvantage vestment" [ref=e95] [cursor=pointer]:
+            - /url: /article/termes-pauper-sortitus-58676
+            - heading "termes pauper sortitus" [level=1] [ref=e96]
+            - paragraph [ref=e97]: Cibo talis vitiosus vinitor sollicito thermae capitulus pecto agnosco nemo.
+            - text: Read more...
+            - list [ref=e98]:
+              - listitem [ref=e99]: disadvantage
+              - listitem [ref=e100]: vestment
+        - generic [ref=e102]:
+          - generic [ref=e104]:
+            - link [ref=e105] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e106]
+            - generic [ref=e107]:
+              - link "RohnDoe1@gmail.com" [ref=e108] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e109]: July 15, 2026
+            - button " 0" [ref=e111] [cursor=pointer]:
+              - generic [ref=e112]: 
+              - text: "0"
+          - link "curriculum auditor condico Vinco caecus truculenter. Read more... Test" [ref=e113] [cursor=pointer]:
+            - /url: /article/curriculum-auditor-condico-58676
+            - heading "curriculum auditor condico" [level=1] [ref=e114]
+            - paragraph [ref=e115]: Vinco caecus truculenter.
+            - text: Read more...
+            - list [ref=e116]:
+              - listitem [ref=e117]: Test
+        - generic [ref=e119]:
+          - generic [ref=e121]:
+            - link [ref=e122] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e123]
+            - generic [ref=e124]:
+              - link "RohnDoe1@gmail.com" [ref=e125] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e126]: July 15, 2026
+            - button " 0" [ref=e128] [cursor=pointer]:
+              - generic [ref=e129]: 
+              - text: "0"
+          - link "suspendo quasi decet Summopere centum subvenio cinis atque solutio debeo. Read more... creator sanity" [ref=e130] [cursor=pointer]:
+            - /url: /article/suspendo-quasi-decet-58676
+            - heading "suspendo quasi decet" [level=1] [ref=e131]
+            - paragraph [ref=e132]: Summopere centum subvenio cinis atque solutio debeo.
+            - text: Read more...
+            - list [ref=e133]:
+              - listitem [ref=e134]: creator
+              - listitem [ref=e135]: sanity
+        - generic [ref=e137]:
+          - generic [ref=e139]:
+            - link [ref=e140] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e141]
+            - generic [ref=e142]:
+              - link "RohnDoe1@gmail.com" [ref=e143] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e144]: July 15, 2026
+            - button " 0" [ref=e146] [cursor=pointer]:
+              - generic [ref=e147]: 
+              - text: "0"
+          - link "trucido teres iste Adnuo ambitus ademptio paens cavus timor ait cenaculum auctor. Read more... playwright-qa" [ref=e148] [cursor=pointer]:
+            - /url: /article/trucido-teres-iste-58676
+            - heading "trucido teres iste" [level=1] [ref=e149]
+            - paragraph [ref=e150]: Adnuo ambitus ademptio paens cavus timor ait cenaculum auctor.
+            - text: Read more...
+            - list [ref=e151]:
+              - listitem [ref=e152]: playwright-qa
+        - generic [ref=e154]:
+          - generic [ref=e156]:
+            - link [ref=e157] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e158]
+            - generic [ref=e159]:
+              - link "RohnDoe1@gmail.com" [ref=e160] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e161]: July 15, 2026
+            - button " 0" [ref=e163] [cursor=pointer]:
+              - generic [ref=e164]: 
+              - text: "0"
+          - link "eos paulatim delibero Quibusdam demergo addo thema amplitudo admoneo vulgus. Read more... playwright-qa" [ref=e165] [cursor=pointer]:
+            - /url: /article/eos-paulatim-delibero-58676
+            - heading "eos paulatim delibero" [level=1] [ref=e166]
+            - paragraph [ref=e167]: Quibusdam demergo addo thema amplitudo admoneo vulgus.
+            - text: Read more...
+            - list [ref=e168]:
+              - listitem [ref=e169]: playwright-qa
+        - generic [ref=e171]:
+          - generic [ref=e173]:
+            - link [ref=e174] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e175]
+            - generic [ref=e176]:
+              - link "RohnDoe1@gmail.com" [ref=e177] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e178]: July 15, 2026
+            - button " 0" [ref=e180] [cursor=pointer]:
+              - generic [ref=e181]: 
+              - text: "0"
+          - link "velum casus spoliatio Tristis aperio conculco derelinquo depopulo corrigo eaque vespillo. Read more... availability certification" [ref=e182] [cursor=pointer]:
+            - /url: /article/velum-casus-spoliatio-58676
+            - heading "velum casus spoliatio" [level=1] [ref=e183]
+            - paragraph [ref=e184]: Tristis aperio conculco derelinquo depopulo corrigo eaque vespillo.
+            - text: Read more...
+            - list [ref=e185]:
+              - listitem [ref=e186]: availability
+              - listitem [ref=e187]: certification
+        - generic [ref=e189]:
+          - generic [ref=e191]:
+            - link [ref=e192] [cursor=pointer]:
+              - /url: /profile/RohnDoe1@gmail.com
+              - img [ref=e193]
+            - generic [ref=e194]:
+              - link "RohnDoe1@gmail.com" [ref=e195] [cursor=pointer]:
+                - /url: /profile/RohnDoe1@gmail.com
+              - generic [ref=e196]: July 15, 2026
+            - button " 0" [ref=e198] [cursor=pointer]:
+              - generic [ref=e199]: 
+              - text: "0"
+          - link "dedecor valde patria Sono arx dolorum. Read more... collectivization hornet" [ref=e200] [cursor=pointer]:
+            - /url: /article/dedecor-valde-patria-58676
+            - heading "dedecor valde patria" [level=1] [ref=e201]
+            - paragraph [ref=e202]: Sono arx dolorum.
+            - text: Read more...
+            - list [ref=e203]:
+              - listitem [ref=e204]: collectivization
+              - listitem [ref=e205]: hornet
+        - navigation [ref=e206]:
+          - list [ref=e207]:
+            - listitem:
+              - button "1" [ref=e208]
+            - listitem:
+              - button "2" [ref=e209] [cursor=pointer]
+            - listitem:
+              - button "3" [ref=e210] [cursor=pointer]
+    - generic [ref=e212]:
+      - paragraph [ref=e213]: Popular Tags
+      - generic [ref=e214]:
+        - generic [ref=e215] [cursor=pointer]: Test
+        - generic [ref=e216] [cursor=pointer]: Blog
+        - generic [ref=e217] [cursor=pointer]: Coding
+        - generic [ref=e218] [cursor=pointer]: YouTube
+        - generic [ref=e219] [cursor=pointer]: Git
+        - generic [ref=e220] [cursor=pointer]: Bondar Academy
+        - generic [ref=e221] [cursor=pointer]: Slack
+        - generic [ref=e222] [cursor=pointer]: Zoom
+        - generic [ref=e223] [cursor=pointer]: GitHub
+        - generic [ref=e224] [cursor=pointer]: Value-Focused
+  - contentinfo [ref=e225]:
+    - generic [ref=e226]:
+      - link "conduit" [ref=e227] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e228]:
+        - text: © 2026. An interactive learning project from
+        - link "RealWorld OSS Project" [ref=e229] [cursor=pointer]:
+          - /url: https://github.com/gothinkster/realworld
+        - text: . Code licensed under MIT. Hosted by
+        - link "Bondar Academy" [ref=e230] [cursor=pointer]:
+          - /url: https://bondaracademy.com
+        - text: .
+```
+
+# Test source
+
+```ts
+  1  | import { expect, Locator, Page } from '@playwright/test';
+  2  | 
+  3  | export class HomePage {
+  4  |   readonly page: Page;
+  5  | 
+  6  |   readonly articlePreview: Locator;
+  7  | 
+  8  |   constructor(page: Page) {
+  9  |     this.page = page;
+  10 |     this.articlePreview = page.locator('.article-preview');
+  11 |   }
+  12 | 
+  13 |   async goto() {
+  14 |     await this.page.goto('/');
+  15 |   }
+  16 | 
+  17 |   async selectTag(tag: string) {
+  18 |     const tagLink = this.page
+  19 |       .locator('.tag-list')
+  20 |       .getByText(tag, { exact: true });
+  21 | 
+> 22 |     await expect(tagLink).toBeVisible();
+     |                           ^ Error: expect(locator).toBeVisible() failed
+  23 |     await tagLink.click();
+  24 |   }
+  25 | 
+  26 |   async verifyTagSelected(tag: string) {
+  27 |     await expect(
+  28 |       this.page.getByRole('link', { name: new RegExp(tag, 'i') })
+  29 |     ).toBeVisible();
+  30 |   }
+  31 | 
+  32 |   async verifyArticlesVisible() {
+  33 |     await expect(this.articlePreview.first()).toBeVisible();
+  34 |   }
+  35 | 
+  36 |   async verifyArticleExists(title: string) {
+  37 |     await expect(
+  38 |       this.page.getByRole('heading', { name: title })
+  39 |     ).toBeVisible();
+  40 |   }
+  41 | 
+  42 |   async verifyArticleNotExists(title: string) {
+  43 |     await expect(
+  44 |       this.page.getByRole('heading', { name: title })
+  45 |     ).toHaveCount(0);
+  46 |   }
+  47 | }
+```
