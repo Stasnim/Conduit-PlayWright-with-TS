@@ -10,7 +10,7 @@ export async function getToken(): Promise<string> {
     baseURL: process.env.API_URL,
   });
 
-  const response = await apiContext.post('users/login', {
+  const response = await apiContext.post('/users/login', {
     data: {
       user: {
         email: process.env.EMAIL,
@@ -23,14 +23,18 @@ export async function getToken(): Promise<string> {
 console.log('Actual URL:', response.url());
 console.log('Status:', response.status());
 
-  const text = await response.text();
-  console.log(text);
+ const text = await response.text();
 
-  if (!response.ok()) {
-    throw new Error(
-      `Login API failed: ${response.status()} ${await response.text()}`
-    );
-  }
+console.log('API_URL:', process.env.API_URL);
+console.log('Actual URL:', response.url());
+console.log('Status:', response.status());
+console.log('Response:', text);
+
+if (!response.ok()) {
+  throw new Error(
+    `Login API failed: ${response.status()} ${text}`
+  );
+}
 
   const body = await response.json();
 
