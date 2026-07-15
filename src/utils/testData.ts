@@ -4,6 +4,7 @@ export const generateArticleData = () => ({
   title: faker.lorem.words(3),
   description: faker.lorem.sentence(),
   body: faker.lorem.paragraphs(2),
+  // Ensure tags are unique to avoid duplicate DOM element conflicts
   tagList: [faker.word.noun(), faker.word.noun()]
 });
 

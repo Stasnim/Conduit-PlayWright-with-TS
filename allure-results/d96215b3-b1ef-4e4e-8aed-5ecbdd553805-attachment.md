@@ -1,0 +1,92 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: articles\tagFilter.spec.ts >> Filter Articles by Tag >> should not display unrelated articles
+- Location: tests\articles\tagFilter.spec.ts:43:7
+
+# Error details
+
+```
+TimeoutError: apiRequestContext.post: Timeout 10000ms exceeded.
+Call log:
+  - → POST https://conduit-api.bondaracademy.com/api/articles
+    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15
+    - accept: */*
+    - accept-encoding: gzip,deflate,br
+    - Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1ODg0Mn0sImlhdCI6MTc4NDEzNTE5MCwiZXhwIjoxNzg5MzE5MTkwfQ.lLy8WKKn1sajboum0d7ox9VsxUnGfWQ3WbB-F0z7yNM
+    - content-type: application/json
+    - content-length: 398
+
+```
+
+# Test source
+
+```ts
+  1  | import { APIRequestContext, expect, request } from '@playwright/test';
+  2  | import { getToken } from './authApi';
+  3  | 
+  4  | export class ArticleApi {
+  5  |   private apiContext!: APIRequestContext;
+  6  | 
+  7  |   async init() {
+  8  |     const token = await getToken();
+  9  | 
+  10 |     this.apiContext = await request.newContext({
+  11 |       // Ensure your .env API_URL is just the base (e.g., https://conduit-api.bondaracademy.com)
+  12 |       baseURL: process.env.API_URL, 
+  13 |       extraHTTPHeaders: {
+  14 |         Authorization: `Token ${token}`,
+  15 |       },
+  16 |     });
+  17 |   }
+  18 | 
+  19 |   async createArticle(title: string, description: string, body: string, tagList: string[] = []) {
+  20 |     // Correct endpoint path: /api/articles
+> 21 |     const response = await this.apiContext.post('/api/articles', {
+     |                                            ^ TimeoutError: apiRequestContext.post: Timeout 10000ms exceeded.
+  22 |       data: { article: { title, description, body, tagList } },
+  23 |     });
+  24 | 
+  25 |     const text = await response.text();
+  26 | 
+  27 |     if (!response.ok()) {
+  28 |       throw new Error(`Create article failed: ${response.status()} ${text}`);
+  29 |     }
+  30 | 
+  31 |     return JSON.parse(text);
+  32 |   }
+  33 | 
+  34 |   async getArticle(slug: string) {
+  35 |     // Correct endpoint path: /api/articles/${slug}
+  36 |     const response = await this.apiContext.get(`/api/articles/${slug}`);
+  37 | 
+  38 |     const text = await response.text();
+  39 | 
+  40 |     if (!response.ok()) {
+  41 |       throw new Error(`Get article failed: ${response.status()} ${text}`);
+  42 |     }
+  43 | 
+  44 |     return JSON.parse(text);
+  45 |   }
+  46 | 
+  47 |   async deleteArticle(slug: string) {
+  48 |     // Correct endpoint path: /api/articles/${slug}
+  49 |     const response = await this.apiContext.delete(`/api/articles/${slug}`);
+  50 | 
+  51 |     if (!response.ok()) {
+  52 |       throw new Error(`Delete article failed: ${response.status()} ${await response.text()}`);
+  53 |     }
+  54 |   }
+  55 | 
+  56 |   async dispose() {
+  57 |     if (this.apiContext) {
+  58 |       await this.apiContext.dispose();
+  59 |     }
+  60 |   }
+  61 | }
+```

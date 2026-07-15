@@ -1,8 +1,5 @@
 import { APIRequestContext, expect, request } from '@playwright/test';
-import dotenv from 'dotenv';
 import { getToken } from './authApi';
-
-dotenv.config();
 
 export class ArticleApi {
   private apiContext!: APIRequestContext;
@@ -11,52 +8,54 @@ export class ArticleApi {
     const token = await getToken();
 
     this.apiContext = await request.newContext({
-      baseURL: process.env.API_URL,
+      // Ensure your .env API_URL is just the base (e.g., https://conduit-api.bondaracademy.com)
+      baseURL: process.env.API_URL, 
       extraHTTPHeaders: {
         Authorization: `Token ${token}`,
       },
     });
   }
 
-  async createArticle(
-    title: string,
-    description: string,
-    body: string,
-    tagList: string[] = []
-  ) {
-    const response = await this.apiContext.post('articles', {
-      data: {
-        article: {
-          title,
-          description,
-          body,
-          tagList,
-        },
-      },
+  async createArticle(title: string, description: string, body: string, tagList: string[] = []) {
+    // Correct endpoint path: /api/articles
+    const response = await this.apiContext.post('/api/articles', {
+      data: { article: { title, description, body, tagList } },
     });
 
-    expect(response.ok()).toBeTruthy();
+    const text = await response.text();
 
-    return await response.json();
+    if (!response.ok()) {
+      throw new Error(`Create article failed: ${response.status()} ${text}`);
+    }
+
+    return JSON.parse(text);
   }
 
   async getArticle(slug: string) {
-    const response = await this.apiContext.get(`articles/${slug}`);
+    // Correct endpoint path: /api/articles/${slug}
+    const response = await this.apiContext.get(`/api/articles/${slug}`);
 
-    expect(response.ok()).toBeTruthy();
+    const text = await response.text();
 
-    return await response.json();
+    if (!response.ok()) {
+      throw new Error(`Get article failed: ${response.status()} ${text}`);
+    }
+
+    return JSON.parse(text);
   }
 
   async deleteArticle(slug: string) {
-    const response = await this.apiContext.delete(`articles/${slug}`);
+    // Correct endpoint path: /api/articles/${slug}
+    const response = await this.apiContext.delete(`/api/articles/${slug}`);
 
-    expect(response.ok()).toBeTruthy();
+    if (!response.ok()) {
+      throw new Error(`Delete article failed: ${response.status()} ${await response.text()}`);
+    }
   }
 
   async dispose() {
-  if (this.apiContext) {
-    await this.apiContext.dispose();
+    if (this.apiContext) {
+      await this.apiContext.dispose();
+    }
   }
-}
 }

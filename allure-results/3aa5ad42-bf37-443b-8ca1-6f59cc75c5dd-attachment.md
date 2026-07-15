@@ -1,0 +1,143 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: settings.spec.ts >> Settings Management >> should update user bio and image successfully
+- Location: tests\settings.spec.ts:6:7
+
+# Error details
+
+```
+Error: Failed to verify value for getByPlaceholder('Short bio about you')
+
+Failed to verify value for getByPlaceholder('Short bio about you')
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: "scrap supporter, activist 😏"
+Received: ""
+
+Call Log:
+- Timeout 15000ms exceeded while waiting on the predicate
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e4]:
+    - generic:
+      - link "conduit" [ref=e5]:
+        - /url: /
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Home" [ref=e8]:
+            - /url: /
+        - listitem [ref=e9]:
+          - link " New Article" [ref=e10]:
+            - /url: /editor
+            - generic [ref=e11]: 
+            - text: New Article
+        - listitem [ref=e12]:
+          - link " Settings" [ref=e13]:
+            - /url: /settings
+            - generic [ref=e14]: 
+            - text: Settings
+        - listitem [ref=e15]:
+          - link "RohnDoe401@gmail.com" [ref=e16]:
+            - /url: /profile/RohnDoe401@gmail.com
+            - img [ref=e17]
+            - text: RohnDoe401@gmail.com
+  - generic [ref=e22]:
+    - heading "Your Settings" [level=1] [ref=e23]
+    - generic:
+      - list
+    - group [ref=e25]:
+      - group [ref=e26]:
+        - textbox "URL of profile picture" [ref=e27]
+      - group [ref=e28]:
+        - textbox "Username" [ref=e29]
+      - group [ref=e30]:
+        - textbox "Short bio about you" [ref=e31]
+      - group [ref=e32]:
+        - textbox "Email" [ref=e33]
+      - group [ref=e34]:
+        - textbox "New Password" [ref=e35]
+      - button "Update Settings" [ref=e36] [cursor=pointer]
+    - separator [ref=e37]
+    - button "Or click here to logout." [ref=e38] [cursor=pointer]
+  - contentinfo [ref=e39]:
+    - generic [ref=e40]:
+      - link "conduit" [ref=e41]:
+        - /url: /
+      - generic [ref=e42]:
+        - text: © 2026. An interactive learning project from
+        - link "RealWorld OSS Project" [ref=e43]:
+          - /url: https://github.com/gothinkster/realworld
+        - text: . Code licensed under MIT. Hosted by
+        - link "Bondar Academy" [ref=e44]:
+          - /url: https://bondaracademy.com
+        - text: .
+```
+
+# Test source
+
+```ts
+  1  | import { expect, Locator, Page } from '@playwright/test';
+  2  | 
+  3  | export class SettingsPage {
+  4  |   readonly page: Page;
+  5  |   readonly settingsLink: Locator;
+  6  |   readonly bioInput: Locator;
+  7  |   readonly imageUrlInput: Locator;
+  8  |   readonly updateSettingsButton: Locator;
+  9  | 
+  10 |   constructor(page: Page) {
+  11 |     this.page = page;
+  12 |     this.settingsLink = page.getByRole('link', { name: 'Settings' });
+  13 |     this.bioInput = page.getByPlaceholder('Short bio about you');
+  14 |     this.imageUrlInput = page.getByPlaceholder('URL of profile picture');
+  15 |     this.updateSettingsButton = page.getByRole('button', { name: 'Update Settings' });
+  16 |   }
+  17 | 
+  18 |   async open() {
+  19 |     await this.settingsLink.click();
+  20 |   }
+  21 | 
+  22 |   // Atomic Update: Fills fields, submits, and waits for API success
+  23 |   async updateProfile(bio: string, imageUrl: string) {
+  24 |     await this.bioInput.fill(bio);
+  25 |     await this.imageUrlInput.fill(imageUrl);
+  26 | 
+  27 |     const [response] = await Promise.all([
+  28 |       this.page.waitForResponse(res => res.url().includes('/api/user') && res.request().method() === 'PUT'),
+  29 |       this.updateSettingsButton.click(),
+  30 |     ]);
+  31 |     
+  32 |     expect(response.ok()).toBeTruthy();
+  33 |   }
+  34 | 
+  35 |   // Robust Verification: Polls the element property directly
+  36 |   // Replace your existing verifyValue method with this
+  37 | async verifyValue(locator: Locator, expectedValue: string) {
+  38 |   // 1. Force a navigation to trigger a fresh GET request from the SPA
+  39 |   await this.page.goto('/');
+  40 |   await this.settingsLink.click();
+  41 | 
+  42 |   // 2. Poll with blur() to force the framework to commit the value
+  43 |   await expect.poll(async () => {
+  44 |     await locator.focus();
+  45 |     await locator.blur(); // Forces the UI to sync state
+  46 |     return await locator.evaluate((el: HTMLTextAreaElement | HTMLInputElement) => el.value);
+  47 |   }, {
+  48 |     message: `Failed to verify value for ${locator}`,
+  49 |     timeout: 15000, // Increased timeout to allow for network/rendering
+> 50 |   }).toBe(expectedValue);
+     |      ^ Error: Failed to verify value for getByPlaceholder('Short bio about you')
+  51 | }
+  52 | }
+```

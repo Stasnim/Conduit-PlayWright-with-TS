@@ -2,80 +2,44 @@ import { expect, Locator, Page } from '@playwright/test';
 
 export class SettingsPage {
   readonly page: Page;
-
   readonly settingsLink: Locator;
-  readonly imageUrlInput: Locator;
-  readonly usernameInput: Locator;
   readonly bioInput: Locator;
-  readonly emailInput: Locator;
-  readonly passwordInput: Locator;
+  readonly imageUrlInput: Locator;
   readonly updateSettingsButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-
-    this.settingsLink = page.getByRole('link', {
-      name: 'Settings',
-    });
-
-    this.imageUrlInput = page.getByPlaceholder(
-      'URL of profile picture'
-    );
-
-    this.usernameInput = page.getByPlaceholder(
-      'Your Name'
-    );
-
-    this.bioInput = page.getByPlaceholder(
-      'Short bio about you'
-    );
-
-    this.emailInput = page.getByPlaceholder(
-      'Email'
-    );
-
-    this.passwordInput = page.getByPlaceholder(
-      'New Password'
-    );
-
-    this.updateSettingsButton = page.getByRole('button', {
-      name: 'Update Settings',
-    });
+    this.settingsLink = page.getByRole('link', { name: 'Settings' });
+    this.bioInput = page.getByPlaceholder('Short bio about you');
+    this.imageUrlInput = page.getByPlaceholder('URL of profile picture');
+    this.updateSettingsButton = page.getByRole('button', { name: 'Update Settings' });
   }
 
   async open() {
     await this.settingsLink.click();
   }
 
-  async updateProfile(
-  bio: string,
-  imageUrl?: string,
-  password?: string
-) {
-  await this.bioInput.fill(bio);
-
-  if (imageUrl) {
+  // Atomic Update: Fills fields, submits, and waits for API success
+  async updateProfile(bio: string, imageUrl: string) {
+    await this.bioInput.fill(bio);
     await this.imageUrlInput.fill(imageUrl);
+
+    const [response] = await Promise.all([
+      this.page.waitForResponse(res => res.url().includes('/api/user') && res.request().method() === 'PUT'),
+      this.updateSettingsButton.click(),
+    ]);
+    
+    expect(response.ok()).toBeTruthy();
   }
 
-  if (password) {
-    await this.passwordInput.fill(password);
-  }
-
-  await Promise.all([
-    this.page.waitForResponse(
-      response =>
-        response.url().includes('/api/user') &&
-        response.request().method() === 'PUT' &&
-        response.ok()
-    ),
-    this.updateSettingsButton.click(),
-  ]);
+  // Robust Verification: Polls the element property directly
+  // Replace your existing verifyValue method with this
+async verifyValue(locator: Locator, expectedValue: string) {
+  await expect.poll(async () => {
+  return await locator.evaluate((el: HTMLTextAreaElement | HTMLInputElement) => el.value);
+}, {
+message: `Failed to verify value for ${locator}`,
+ timeout: 10000, // 10 seconds is more than enough for SPA hydration
+}).toBe(expectedValue);
 }
-
-  async verifyBioUpdated(bio: string) {
-    await this.settingsLink.click();
-
-    await expect(this.bioInput).toHaveValue(bio);
-  }
 }

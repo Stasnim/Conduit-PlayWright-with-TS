@@ -1,0 +1,49 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: articles\deleteArticle.spec.ts >> Delete Article >> should delete an article
+- Location: tests\articles\deleteArticle.spec.ts:31:7
+
+# Error details
+
+```
+TypeError: Cannot read properties of undefined (reading 'post')
+```
+
+# Test source
+
+```ts
+  1  | import { APIRequestContext } from '@playwright/test';
+  2  | 
+  3  | export async function getToken(
+  4  |   request: APIRequestContext
+  5  | ) {
+  6  | 
+> 7  |   const response = await request.post('/api/users/login', {
+     |                                  ^ TypeError: Cannot read properties of undefined (reading 'post')
+  8  |     data: {
+  9  |       user: {
+  10 |         email: process.env.EMAIL,
+  11 |         password: process.env.PASSWORD
+  12 |       }
+  13 |     }
+  14 |   });
+  15 | 
+  16 |   const text = await response.text();
+  17 | 
+  18 |   if (!response.ok()) {
+  19 |     throw new Error(
+  20 |       `Login API failed: ${response.status()} ${text}`
+  21 |     );
+  22 |   }
+  23 | 
+  24 |   const body = JSON.parse(text);
+  25 | 
+  26 |   return body.user.token;
+  27 | }
+```

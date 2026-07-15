@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { ArticleApi } from '../../src/api/articleApi';
 import { HomePage } from '../../src/pages/HomePage';
 import { generateArticleData } from '../../src/utils/testData';
@@ -9,6 +9,7 @@ test.describe('Filter Articles by Tag', () => {
 
   test.beforeEach(async () => {
     articleApi = new ArticleApi();
+
     await articleApi.init();
 
     const data = generateArticleData();

@@ -1,0 +1,87 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: settings.spec.ts >> User Settings >> should update user bio
+- Location: tests\settings.spec.ts:8:7
+
+# Error details
+
+```
+Error: expect(locator).toHaveValue(expected) failed
+
+Locator:  getByPlaceholder('Short bio about you')
+Expected: "activist, founder, student"
+Received: ""
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveValue" with timeout 5000ms
+  - waiting for getByPlaceholder('Short bio about you')
+    14 × locator resolved to <textarea rows="8" formcontrolname="bio" placeholder="Short bio about you" class="form-control form-control-lg ng-untouched ng-pristine ng-valid">              </textarea>
+       - unexpected value ""
+
+```
+
+```yaml
+- textbox "Short bio about you"
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | import { SettingsPage } from '../src/pages/SettingsPage';
+  4  | import { generateUserData } from '../src/utils/testData';
+  5  | 
+  6  | test.describe('User Settings', () => {
+  7  | 
+  8  |   test('should update user bio', async ({ page }) => {
+  9  | 
+  10 |     const settingsPage = new SettingsPage(page);
+  11 | 
+  12 |     const user = generateUserData();
+  13 | 
+  14 |     await page.goto('/');
+  15 | 
+  16 |     await settingsPage.open();
+  17 | 
+  18 |    await settingsPage.updateProfile(
+  19 |   user.bio,
+  20 |   user.image
+  21 | );
+  22 | 
+  23 | // Verify the update persisted
+  24 | await settingsPage.open();
+  25 | 
+> 26 | await expect(settingsPage.bioInput).toHaveValue(user.bio);
+     |                                     ^ Error: expect(locator).toHaveValue(expected) failed
+  27 | 
+  28 | await expect(settingsPage.imageUrlInput).toHaveValue(user.image);
+  29 | 
+  30 |   });
+  31 | 
+  32 |   test('should not update with invalid email', async ({ page }) => {
+  33 |   const settingsPage = new SettingsPage(page);
+  34 | 
+  35 |   await page.goto('/');
+  36 | 
+  37 |   await settingsPage.open();
+  38 | 
+  39 |   await settingsPage.emailInput.fill('invalid-email');
+  40 | 
+  41 |   await settingsPage.updateSettingsButton.click();
+  42 | 
+  43 |   await expect(page).toHaveURL(/settings/);
+  44 | 
+  45 |   await expect(settingsPage.updateSettingsButton).toBeVisible();
+  46 | 
+  47 |   await expect(settingsPage.emailInput).toHaveValue('invalid-email');
+  48 | });
+  49 | });
+```
